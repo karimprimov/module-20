@@ -419,43 +419,73 @@ table(d$sex, d$age)
 ```
 
 ```{r}
-
+library(car)
 ```
 
 ```{r}
-
+m1 <- aov(data = d, femur_length ~ age + sex)
+m1 <- Anova(m1, type = "II")
+m1
 ```
 
 ```{r}
-
+m2 <- aov(data = d, femur_length ~ sex + age)
+m2 <- Anova(m2, type = "II")
+m2
 ```
 
 ```{r}
-
+m1 <- aov(data = d, femur_length ~ age * sex)
+m1 <- Anova(m1, type = "III")
+m1
 ```
 
 ```{r}
-
+m2 <- aov(data = d, femur_length ~ sex * age)
+m2 <- Anova(m2, type = "III")
+m2
 ```
 
 ```{r}
-
+detach(package:car)
 ```
 
 ```{r}
+par(mfrow = c(1, 1))
+curve(dchisq(x, df = 1), col = "green", lty = 3, lwd = 2, xlim = c(0, 20), main = "Some Example Chi-Square Distributions",
+    sub = "(vertical line shows critical value for df=3)", ylab = "f(x)", xlab = "x")
+curve(dchisq(x, df = 3), col = "blue", lty = 3, lwd = 2, add = TRUE)
+curve(dchisq(x, df = 5), col = "red", lty = 3, lwd = 2, add = TRUE)
+curve(dchisq(x, df = 10), col = "purple", lty = 3, lwd = 2, add = TRUE)
+legend("right", c("df=1", "df=3", "df=5", "df=10"), lty = c(3, 3, 3, 3), lwd = 2,
+    col = c("green", "blue", "red", "purple", "black"), bty = "n", cex = 0.75)
 
+crit <- qchisq(p = 0.95, df = 3)
+crit
+
+abline(v = crit)
+abline(h = 0)
+polygon(cbind(c(crit, seq(from = crit, to = 20, length.out = 1000), 8), c(0, dchisq(seq(from = crit,
+    to = 20, length.out = 1000), df = 3), 0)), border = "black", col = rgb(0, 0,
+    1, 0.5))
+```
+
+
+Challenge:
+```{r}
+(obs.table <- table(z$occupation))
 ```
 
 ```{r}
-
+# returns the same as summary()
+(exp.table <- rep(0.25 * length(z$occupation), 4))
 ```
 
 ```{r}
-
-```
-
-```{r}
-
+# equal expectation for each of 4 categories
+occupation.matrix <- data.frame(cbind(obs.table, exp.table, (obs.table - exp.table)^2/exp.table))
+names(occupation.matrix) <- c("Oi", "Ei", "(Oi-Ei)^2/Ei")
+occupation.matrix
 ```
 
 ```{r}
