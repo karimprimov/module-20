@@ -1,0 +1,241 @@
+---
+title: "module-20"
+output: html_document
+---
+
+```{r}
+library(tidyverse)
+library(broom)
+library(infer)
+```
+
+```{r}
+f <- "https://raw.githubusercontent.com/difiore/ada-2022-datasets/main/zombies.csv"
+z <- read_csv(f, col_names = TRUE)
+```
+
+```{r}
+z$gender <- factor(z$gender)  # can also use `as.factor()`
+z$major <- factor(z$major)  # can also use `as.factor()`
+```
+
+```{r}
+class(z$gender)
+```
+
+```{r}
+summary(z$gender)
+```
+
+```{r}
+plot(z$height ~ z$gender)
+```
+
+```{r}
+# or, with {ggplot}
+ggplot(data = z, aes(x = gender, y = height)) + geom_boxplot()
+```
+
+```{r}
+m <- lm(data = z, height ~ gender)
+summary(m)
+```
+
+```{r}
+levels(z$gender)
+```
+
+```{r}
+z$gender <- relevel(z$gender, ref = "Male")
+m <- lm(data = z, height ~ gender)
+summary(m)
+```
+
+```{r}
+p <- 1 - pf(q = 276.9, df1 = 1, df2 = 998)
+p
+```
+
+```{r}
+unique(z$major)
+```
+
+```{r}
+levels(z$major)
+```
+
+```{r}
+z <- z %>%
+    mutate(occupation = case_when(major %in% c("agricultural sciences", "animal husbandry",
+        "applied sciences", "biology", "botany", "energy studies", "environmental science",
+        "epidemiology", "medicine/nursing", "pharmacology") ~ "natural science",
+        major %in% c("business administration", "city planning", "economics", "human services",
+            "logistics", "military strategy") ~ "logistics", major %in% c("architecture",
+            "integrated water resources management", "mechanical engineering") ~
+            "engineering", major %in% c("communication", "criminal justice administration",
+            "culinary services", "education", "philosophy", "physical education",
+            "psychology") ~ "other"))
+z$occupation <- factor(z$occupation)  # can also use `as.factor()`
+levels(z$occupation)
+```
+
+```{r}
+plot(data = z, zombies_killed ~ occupation)
+```
+
+```{r}
+m <- lm(data = z, zombies_killed ~ occupation)
+summary(m)
+```
+
+Why is the q = 0.489 instead of 1.403??
+```{r}
+p <- 1 - pf(q = 0.489, df1 = 3, df2 = 996)  # F test
+p
+```
+
+
+One way ANOVA
+```{r}
+m.aov <- aov(data = z, zombies_killed ~ occupation)
+summary(m.aov)
+```
+
+```{r}
+tidy(m.aov)  # a neater table
+```
+
+```{r}
+m.lm <- lm(data = z, zombies_killed ~ occupation)
+summary(m.lm)
+```
+
+```{r}
+tidy(m.lm)  # a neater table
+```
+
+```{r}
+par(mfrow = c(2, 2))
+plot(m.lm)  # plot(m.aov) is equivalent
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
