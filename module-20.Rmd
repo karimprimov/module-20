@@ -489,59 +489,66 @@ occupation.matrix
 ```
 
 ```{r}
-
+(X2 <- sum(occupation.matrix[, 3]))
 ```
 
 ```{r}
-
+(p <- 1 - pchisq(q = X2, length(obs.table) - 1))
 ```
 
 ```{r}
-
+chisq.test(x = obs.table, p = c(0.25, 0.25, 0.25, 0.25))
 ```
 
 ```{r}
-
+# here p is a vector of expected proportions... default is uniform
+chisq.test(x = obs.table)
 ```
 
 ```{r}
-
+chisq.test(x = obs.table, p = c(0.42, 0.07, 0.22, 0.29))
 ```
 
 ```{r}
-
+(obs.table = table(z$gender, z$occupation))
 ```
 
 ```{r}
-
+mosaicplot(t(obs.table), main = "Contingency Table", col = c("darkseagreen", "gray"))
 ```
 
 ```{r}
-
+(r <- rowSums(obs.table))  # row margins
 ```
 
 ```{r}
-
+(c <- colSums(obs.table))  # column margins
 ```
 
 ```{r}
-
+(nr <- nrow(obs.table))  # row dimensions
 ```
 
 ```{r}
-
+(nc <- ncol(obs.table))  # column dimensions
 ```
 
 ```{r}
-
+(exp.table <- matrix(rep(c, each = nr) * r/sum(obs.table), nrow = nr, ncol = nc,
+    dimnames = dimnames(obs.table), byrow = FALSE))
 ```
 
 ```{r}
-
+# calculates the product of c*r and divides by total
+(X2 <- sum((obs.table - exp.table)^2/exp.table))
 ```
 
 ```{r}
+(p <- 1 - pchisq(q = X2, df = (nr - 1) * (nc - 1)))
+```
 
+```{r}
+chisq.test(x = obs.table)
 ```
 
 ```{r}
